@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import app from './app.js';
+import app from './app';
 
 console.log('Booting server...');
 console.log('Start of server.ts');
