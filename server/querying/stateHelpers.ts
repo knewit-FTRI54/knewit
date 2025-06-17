@@ -35,19 +35,49 @@ export function updateDifficulty(
 export async function nextQuestion(
   state: SessionState
 ): Promise<QuizQuestion | undefined> {
-  if (state.queue.length <= 2) {
+  // Find a question of the current difficulty level
+  let questionIndex = state.queue.findIndex(
+    (q) => q.difficulty === state.difficulty
+  );
+
+  // If no question of current difficulty, try one level easier
+  if (questionIndex === -1 && state.difficulty === 'hard') {
+    questionIndex = state.queue.findIndex((q) => q.difficulty === 'medium');
+  }
+  if (
+    questionIndex === -1 &&
+    (state.difficulty === 'hard' || state.difficulty === 'medium')
+  ) {
+    questionIndex = state.queue.findIndex((q) => q.difficulty === 'easy');
+  }
+
+  // If still no question found, or running low on questions, top up
+  if (questionIndex === -1 || state.queue.length <= 3) {
     await topUp(state);
+    // Try again after top-up
+    questionIndex = state.queue.findIndex(
+      (q) => q.difficulty === state.difficulty
+    );
+    if (questionIndex === -1) {
+      questionIndex = 0; // fallback to first available question
+    }
   }
-  const question = state.queue.shift();
-  if (question) {
+
+  if (questionIndex >= 0) {
+    const question = state.queue.splice(questionIndex, 1)[0];
     state.history.push(question);
+    return question;
   }
-  return question;
+
+  return undefined;
 }
 
-/** Internal helper - never pass theme if it’s already on state */
+/** Internal helper - never pass theme if it's already on state */
 async function topUp(state: SessionState) {
   const batchSize = 6; // always 6 on refill
+
+  // Generate questions adapted to current difficulty level
+  // More questions around user's current level
   const fresh = await generateQuestions({
     // theme not passed -> generateQuestions knows this is a top-up
     batchSize,

@@ -40,13 +40,20 @@ interface GenArgs {
 export async function generateQuestions(
   args: GenArgs
 ): Promise<QuizQuestion[]> {
-  const firstCall = !!args.theme;
+  const firstCall = args.theme!;
 
   const userContent =
     (firstCall ? `Theme: ${args.theme}\n` : `Use the stored theme.\n`) +
     `Player difficulty: ${args.difficulty}\n` +
     `Generate ${args.batchSize} questions.`;
 
+  console.log('⏳ Generating questions:', {
+    firstCall,
+    batchSize: args.batchSize,
+    difficulty: args.difficulty,
+  });
+
+  // Query OpenAI
   const resp = await openai.chat.completions.create({
     model: 'gpt-4o-mini',
     messages: [
@@ -59,7 +66,12 @@ export async function generateQuestions(
     temperature: 0.7,
   });
 
-  return JSON.parse(resp.choices[0].message.function_call!.arguments).questions;
+  const result = JSON.parse(resp.choices[0].message.function_call!.arguments);
+  console.log('✅ OpenAI returned:', {
+    questionCount: result.questions?.length,
+  });
+
+  return result.questions || [];
 }
 
 // const topUpQuestions = async (

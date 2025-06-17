@@ -94,6 +94,34 @@ router.post(
 );
 
 /* ──────────────────────────────────────────────────────────────── *
+ *  GET /api/quiz/batch?sessionId=...&count=5                       *
+ *  Get multiple questions for frontend to handle                   *
+ * ──────────────────────────────────────────────────────────────── */
+router.get(
+  '/batch',
+  asyncHandler(async (req, res, next) => {
+    const sessionId = req.query.sessionId as string;
+    const count = parseInt(req.query.count as string) || 5;
+    const state = await ensureSession(sessionId, res);
+
+    const questions: QuizQuestion[] = [];
+
+    // Get multiple questions, top-up if needed
+    for (let i = 0; i < count; i++) {
+      const question = await nextQuestion(state);
+      if (question) {
+        questions.push(question);
+      } else {
+        break; // No more questions available
+      }
+    }
+
+    await saveSession(sessionId, state);
+    res.json({ questions, totalReturned: questions.length });
+  })
+);
+
+/* ──────────────────────────────────────────────────────────────── *
  *  Helper – guard & load session                                   *
  * ──────────────────────────────────────────────────────────────── */
 async function ensureSession(sessionId: string | undefined, res: any) {
