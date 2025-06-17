@@ -1,8 +1,8 @@
 import { RequestHandler, Request, Response } from 'express';
 import OpenAI from 'openai';
-import { QuizQuestion, Difficulty } from '../types/types.js';
-import { SYSTEM_PROMPT } from './quizMasterPrompt.js';
-import { generateQuizQuestionsFn } from './functionSchema.js';
+import { QuizQuestion, Difficulty } from '../types/types';
+import { SYSTEM_PROMPT } from './quizMasterPrompt';
+import { generateQuizQuestionsFn } from './functionSchema';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,

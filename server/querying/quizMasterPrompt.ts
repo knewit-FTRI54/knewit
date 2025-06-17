@@ -30,8 +30,8 @@ export const SYSTEM_PROMPT =
   '  ]\n' +
   '}\n\n' +
   'Batch rules:\n' +
-  '- First call: exactly 5 questions – 1 medium opener, 2 easy, 2 hard.\n' +
-  '- Subsequent calls: exactly 6 questions – 2 easy, 2 medium, 2 hard.\n' +
+  '- First call: exactly 5 questions - 1 medium opener, 2 easy, 2 hard.\n' +
+  '- Subsequent calls: exactly 6 questions - 2 easy, 2 medium, 2 hard.\n' +
   '- Shuffle the question order inside each batch, but keep the counts.\n\n' +
   'Randomness: approximately 0.7. Strive for novelty, but do not hallucinate; if unsure of a fact, choose another question.\n\n' +
   'Return JSON only—no extra keys, comments, markdown, or prose.';

@@ -1,5 +1,5 @@
 import Redis from 'ioredis';
-import { SessionState } from '../types/types.js';
+import { SessionState } from '../types/types';
 
 const redis = new Redis({ keyPrefix: 'session:' });
 

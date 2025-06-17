@@ -1,5 +1,5 @@
-import { SessionState, Difficulty, QuizQuestion } from '../types/types.js';
-import { generateQuestions } from './openai.controller.js';
+import { SessionState, Difficulty, QuizQuestion } from '../types/types';
+import { generateQuestions } from './openai.controller';
 
 /** Step 1: we call once, right after user chooses a theme */
 export async function initSession(theme: string): Promise<SessionState> {

@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import asyncHandler from 'express-async-handler';
 import { v4 as uuid } from 'uuid'; // to generate random numbers
-import { initSession, nextQuestion, updateDifficulty } from './stateHelpers.js';
-import { loadSession, saveSession } from './sessionStore.js';
-import { QuizQuestion } from '../types/types.js';
+import { initSession, nextQuestion, updateDifficulty } from './stateHelpers';
+import { loadSession, saveSession } from './sessionStore';
+import { QuizQuestion } from '../types/types';
 
 const router = Router();
 

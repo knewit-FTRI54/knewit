@@ -1,7 +1,7 @@
 import express, { ErrorRequestHandler } from 'express';
-import { ServerError } from './types/types.js';
+import { ServerError } from './types/types';
 import cors from 'cors';
-import apiRouter from './querying/openai.service.js';
+import apiRouter from './querying/openai.service';
 
 const app = express();
 
