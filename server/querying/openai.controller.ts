@@ -104,3 +104,48 @@ export async function generateQuestions(
 
   return result.questions || [];
 }
+
+/**
+ * rawArgs example output:
+ *
+ * {
+      "questions": [
+        {
+          "question": "What is the chemical symbol for water?",
+          "options": ["H2O", "O2H", "H2O2", "HO"],
+          "correct_index": 0,
+          "difficulty": "medium",
+          "explanation": "The chemical symbol for water is H2O, indicating it consists of two hydrogen atoms and one oxygen atom."
+        },
+        {
+          "question": "What planet is known as the Red Planet?",
+          "options": ["Earth", "Venus", "Mars", "Jupiter"],
+          "correct_index": 2,
+          "difficulty": "easy",
+          "explanation": "Mars is often referred to as the Red Planet due to its reddish appearance, which is caused by iron oxide (rust) on its surface."
+        },
+        {
+          "question": "What gas do plants absorb from the atmosphere?",
+          "options": ["Oxygen", "Nitrogen", "Carbon Dioxide", "Hydrogen"],
+          "correct_index": 2,
+          "difficulty": "easy",
+          "explanation": "Plants absorb carbon dioxide from the atmosphere during photosynthesis, using it to produce oxygen and glucose."
+        },
+        {
+          "question": "What is the powerhouse of the cell?",
+          "options": ["Nucleus", "Ribosome", "Mitochondria", "Chloroplast"],
+          "correct_index": 2,
+          "difficulty": "medium",
+          "explanation": "The mitochondria are known as the powerhouse of the cell because they produce ATP, the energy currency of the cell."
+        },
+        {
+          "question": "What is the boiling point of water at sea level in degrees Celsius?",
+          "options": ["90°C", "100°C", "85°C", "120°C"],
+          "correct_index": 1,
+          "difficulty": "easy",
+          "explanation": "The boiling point of water at sea level is 100°C. This is a fundamental concept in thermodynamics."
+        }
+      ]
+    }
+ *
+ */

@@ -8,6 +8,8 @@ export async function initSession(theme: string): Promise<SessionState> {
     batchSize: 5,
     difficulty: 'easy',
   });
+
+  // Return object in a form of a SessionState
   return { theme, queue, history: [], difficulty: 'easy', consecutiveWrong: 0 };
 }
 

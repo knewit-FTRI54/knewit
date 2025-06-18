@@ -15,19 +15,26 @@ function App() {
   const [loading, setLoading] = useState<boolean>(false);
   const [feedback, setFeedback] = useState<string>('');
 
-  // 1. Start the quiz -> call /api/quiz/session -> generate 5 questions
+  /** 1. Start the quiz -> call /api/quiz/session -> generate 5 questions */
   const startQuiz = async () => {
     if (!theme) return;
     setLoading(true);
+
     try {
       const response = await fetch('http://localhost:4000/api/quiz/session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ theme }),
       });
+
+      /**
+       *    Data contains:
+       *    - sessionId
+       *    - question
+       */
+
       const data = await response.json();
 
-      // Set
       setSessionId(data.sessionId);
       setCurrentQuestion(data.question);
       setFeedback('');
@@ -72,10 +79,8 @@ function App() {
     <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
       <h1>Quiz Game</h1>
 
-      {/* 
-          First question doesn't have a sessionId and thus no theme. 
-          Hence prompt the user to give us their desired theme 
-      */}
+      {/* First question doesn't have a sessionId and thus no theme. 
+          Hence prompt the user to give us their desired theme */}
       {!sessionId ? (
         <div>
           <input
@@ -86,10 +91,8 @@ function App() {
             style={{ width: '300px', padding: '10px', marginRight: '10px' }}
           />
 
-          {/* 
-              This is a simple signal to show user 
-              we're generating the answer (in the backend) 
-          */}
+          {/* This is a simple signal to show user 
+              we're generating the answer (in the backend) */}
           <button onClick={startQuiz} disabled={!theme || loading}>
             {loading ? 'Starting...' : 'Start Quiz'}
           </button>
@@ -107,6 +110,9 @@ function App() {
                 <em>Difficulty: {currentQuestion.difficulty}</em>
               </p>
 
+              {/* 1/ Map over the current question, 
+                  2/ Render each option 
+                  3/ onClick pass index into the submit function handler */}
               {currentQuestion.options.map((option, index) => (
                 <div key={index} style={{ margin: '10px 0' }}>
                   <button
@@ -134,6 +140,8 @@ function App() {
               style={{
                 marginTop: '20px',
                 padding: '15px',
+
+                // If is correct -> green; if wrong -> red
                 backgroundColor: feedback.includes('Correct')
                   ? '#d4edda'
                   : '#f8d7da',
@@ -150,6 +158,7 @@ function App() {
 
           {loading && <p>Loading...</p>}
 
+          {/* Start from the beginning */}
           <button
             onClick={() => {
               setSessionId('');
@@ -168,3 +177,48 @@ function App() {
 }
 
 export default App;
+
+/**
+ * rawArgs example output:
+ *
+ * {
+      "questions": [
+        {
+          "question": "What is the chemical symbol for water?",
+          "options": ["H2O", "O2H", "H2O2", "HO"],
+          "correct_index": 0,
+          "difficulty": "medium",
+          "explanation": "The chemical symbol for water is H2O, indicating it consists of two hydrogen atoms and one oxygen atom."
+        },
+        {
+          "question": "What planet is known as the Red Planet?",
+          "options": ["Earth", "Venus", "Mars", "Jupiter"],
+          "correct_index": 2,
+          "difficulty": "easy",
+          "explanation": "Mars is often referred to as the Red Planet due to its reddish appearance, which is caused by iron oxide (rust) on its surface."
+        },
+        {
+          "question": "What gas do plants absorb from the atmosphere?",
+          "options": ["Oxygen", "Nitrogen", "Carbon Dioxide", "Hydrogen"],
+          "correct_index": 2,
+          "difficulty": "easy",
+          "explanation": "Plants absorb carbon dioxide from the atmosphere during photosynthesis, using it to produce oxygen and glucose."
+        },
+        {
+          "question": "What is the powerhouse of the cell?",
+          "options": ["Nucleus", "Ribosome", "Mitochondria", "Chloroplast"],
+          "correct_index": 2,
+          "difficulty": "medium",
+          "explanation": "The mitochondria are known as the powerhouse of the cell because they produce ATP, the energy currency of the cell."
+        },
+        {
+          "question": "What is the boiling point of water at sea level in degrees Celsius?",
+          "options": ["90°C", "100°C", "85°C", "120°C"],
+          "correct_index": 1,
+          "difficulty": "easy",
+          "explanation": "The boiling point of water at sea level is 100°C. This is a fundamental concept in thermodynamics."
+        }
+      ]
+    }
+ *
+ */

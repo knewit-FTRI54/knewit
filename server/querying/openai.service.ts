@@ -21,10 +21,15 @@ router.post(
     }
 
     const state = await initSession(theme);
+
+    // Generate random session id using uuid
     const sessionId = uuid();
 
     // Get first question and track it
     const firstQuestion = state.queue.shift() as QuizQuestion;
+
+    // Push the question to the history to know which question to evaluate
+    // We will always evaluate the question at the last index inside history; i.e. history[history.length - 1]
     state.history.push(firstQuestion);
 
     await saveSession(sessionId, state);
