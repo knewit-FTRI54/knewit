@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './App.css';
 
 interface Question {
   question: string;
@@ -78,97 +79,88 @@ function App() {
   };
 
   return (
-    <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
-      <h1>Quiz Game</h1>
+    <div className='quiz-container'>
+      <h1 className='quiz-title'>Quiz Game</h1>
 
       {/* First question doesn't have a sessionId and thus no theme. 
           Hence prompt the user to give us their desired theme */}
       {!sessionId ? (
-        <div>
+        <div className='theme-input-container'>
           <input
+            className='theme-input'
             type='text'
             placeholder='Enter theme (e.g., food, history, science)'
             value={theme}
             onChange={(e) => setTheme(e.target.value)}
-            style={{ width: '300px', padding: '10px', marginRight: '10px' }}
           />
 
           {/* This is a simple signal to show user 
               we're generating the answer (in the backend) */}
-          <button onClick={startQuiz} disabled={!theme || loading}>
+          <button
+            className='primary-button'
+            onClick={startQuiz}
+            disabled={!theme || loading}
+          >
             {loading ? 'Starting...' : 'Start Quiz'}
           </button>
         </div>
       ) : (
         <div>
-          <p>
+          <div className='session-info'>
             <strong>Session ID:</strong> {sessionId}
-          </p>
+          </div>
 
           {currentQuestion && (
-            <div>
-              <h3>{currentQuestion.question}</h3>
-              <p>
-                <em>Difficulty: {currentQuestion.difficulty}</em>
-              </p>
+            <div className='question-container'>
+              <h3 className='question-text'>{currentQuestion.question}</h3>
+              <span
+                className={`difficulty-badge difficulty-${currentQuestion.difficulty}`}
+              >
+                {currentQuestion.difficulty}
+              </span>
 
               {/* 1/ Map over the current question, 
                   2/ Render each option 
                   3/ onClick pass index into the submit function handler */}
-              {currentQuestion.options.map((option, index) => (
-                <div key={index} style={{ margin: '10px 0' }}>
+              <div className='options-container'>
+                {currentQuestion.options.map((option, index) => (
                   <button
+                    key={index}
+                    className='option-button'
                     onClick={() => submitAnswer(index)}
                     disabled={loading}
-                    style={{
-                      width: '100%',
-                      padding: '10px',
-                      textAlign: 'left',
-                      backgroundColor: '#f0f0f0',
-                      border: '1px solid #ccc',
-                      cursor: 'pointer',
-                      color: 'black',
-                    }}
                   >
-                    {index + 1}. {option}
+                    <span className='option-number'>{index + 1}</span>
+                    <span>{option}</span>
                   </button>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           )}
 
           {feedback && (
             <div
-              style={{
-                marginTop: '20px',
-                padding: '15px',
-
-                // If is correct -> green; if wrong -> red
-                backgroundColor: feedback.includes('Correct')
-                  ? '#d4edda'
-                  : '#f8d7da',
-                border:
-                  '1px solid ' +
-                  (feedback.includes('Correct') ? '#c3e6cb' : '#f5c6cb'),
-                borderRadius: '5px',
-                color: 'black',
-              }}
+              className={`feedback-container ${
+                feedback.includes('Correct')
+                  ? 'feedback-correct'
+                  : 'feedback-incorrect'
+              }`}
             >
               {feedback}
             </div>
           )}
 
-          {loading && <p>Loading...</p>}
+          {loading && <p className='loading-text'>Loading...</p>}
 
           {/* Start from the beginning */}
           <button
+            className='reset-button'
             onClick={() => {
               setSessionId('');
               setCurrentQuestion(null);
               setTheme('');
               setFeedback('');
             }}
-            style={{ marginTop: '20px' }}
           >
             Reset Quiz
           </button>
