@@ -54,7 +54,7 @@ export async function generateQuestions(
   });
 
   /** ─────────────────────────────────────────────────────────────────────────────────────────────────────── *
-   *  Query OpenAI                                                                                            *
+   *    Query OpenAI                                                                                          *
    *    - Deifne a tools that we're going to be using (type: 'function')                                      *
    *    - https://platform.openai.com/docs/guides/function-calling?api-mode=responses                         *
    *    - https://medium.com/@alexanderekb/openai-api-responses-in-json-format-quickstart-guide-75342e50cbd6  *

@@ -47,6 +47,8 @@ function App() {
   /** 2. Everytime we submit an answer, call backend to update the difficulty based on whether the user's answer was correct or not. **/
   const submitAnswer = async (answerIndex: number) => {
     setLoading(true);
+
+    /** 1. we get the right answer and update difficulty */
     try {
       const response = await fetch('http://localhost:4000/api/quiz/answer', {
         method: 'POST',
@@ -60,7 +62,7 @@ function App() {
         } (Difficulty: ${data.newDifficulty})`
       );
 
-      // Get next question
+      /** 2.  */
       setTimeout(async () => {
         const nextResponse = await fetch(
           `http://localhost:4000/api/quiz/question?sessionId=${sessionId}`

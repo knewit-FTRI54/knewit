@@ -48,6 +48,8 @@ router.get(
   '/question',
   asyncHandler(async (req, res, next) => {
     const sessionId = req.query.sessionId as string;
+
+    // Check whether there's a state. If there is, return the state.
     const state = await ensureSession(sessionId, res);
 
     const question = await nextQuestion(state);
@@ -86,6 +88,8 @@ router.post(
     }
 
     const correct = answerIndex === lastQ.correct_index;
+
+    // No need to return anything because we're updating the state within the updateDifficulty function
     updateDifficulty(state, correct);
 
     await saveSession(sessionId!, state);
