@@ -88,6 +88,8 @@ export async function generateQuestions(
   // Safely parse tool_call response; arguments is a JSON schema
   const rawArgs =
     resp.choices?.[0]?.message?.tool_calls?.[0]?.function?.arguments;
+
+  // console.log(rawArgs);
   let result: { questions?: QuizQuestion[] } = {};
 
   try {
