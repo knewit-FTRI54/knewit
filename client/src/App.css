@@ -20,6 +20,27 @@ body.light {
   color: #1e293b;
 }
 
+.top-right {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+}
+
+.logout-button {
+  background-color: #e53e3e;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #c53030;
+}
+
 #root {
   min-height: 100vh;
   display: flex;

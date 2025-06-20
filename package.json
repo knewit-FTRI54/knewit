@@ -20,5 +20,11 @@
   "homepage": "https://github.com/knewit-FTRI54/knewit#readme",
   "devDependencies": {
     "concurrently": "^9.1.2"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^16.5.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.16.0"
   }
 }

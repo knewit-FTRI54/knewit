@@ -1,15 +1,21 @@
 import 'dotenv/config';
+import mongoose from 'mongoose';
 import app from './app';
+import 'dotenv/config';
 
 console.log('Booting server...');
 console.log('Start of server.ts');
 
 const port = process.env.PORT || 4000;
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/knewit';
 
 async function startServer() {
   try {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // 1. Connect to MongoDB
+    await mongoose.connect(MONGO_URI);
+    console.log('✅ Connected to MongoDB');
 
+    // 2. Start the Express server
     app
       .listen(port, () => {
         console.log(`✅ App listening on port ${port}`);
@@ -27,7 +33,6 @@ async function startServer() {
   }
 }
 
-// Execute the startup function
 startServer().catch((error) => {
   console.error('❌ Unhandled error during startup:', error);
   process.exit(1);
